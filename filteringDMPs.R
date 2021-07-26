@@ -131,3 +131,29 @@ allSigProbes2<-rbind(sigProbesMales2,sigProbesFemales2)
 replicatedResultsSplit<-split(replicatedResults,replicatedResults$Higher_Met_In)
 repFemalesSigCpG2<-replicatedResultsSplit$Female
 repMalesSigCpG2<-replicatedResultsSplit$Male
+
+
+#################################################################################
+#### Analysing the data ####
+#################################################################################
+
+#colours we use for plotting throughout the manuscript
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+maleColour<-cbbPalette[7]
+femaleColour<-cbbPalette[6]
+
+###############################################################
+####  Generate Table 1 ####
+###############################################################
+
+# character vector of all CpG sites tested.
+all.cpg <- as.character(rownames(annotationTable))
+# character vector of significant CpG sites to test for GO term enrichment
+sig.cpg<-as.character(dasenAutosomeCleaned$Row.names))
+# perform gene ontology testing
+sexAssociatedSitesPathways <- gometh(sig.cpg,all.cpg,collection="GO",array.type="EPIC")
+#get signficiant pathways
+table(sexAssociatedSitesPathways$FDR<0.05)
+#table of top GO results
+topGO(sexAssociatedSitesPathways)
